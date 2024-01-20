@@ -30,16 +30,15 @@ class TokenData(BaseModel):
 
 class MessageBase(BaseModel):
     #sender: int
-    receivers: List[int]
     message_content: Optional[str]
     context: Optional[str]
 
 class MessageCreate(MessageBase):
-    pass
+    receivers: List[int]
 
 class MessageResponse(MessageBase):
-    # timestamp: datetime
-    # seen: bool
-    # deleted: bool
-    # archived: bool
-    pass
+    id: int
+    timestamp: datetime
+    seen: bool
+    deleted: bool
+    archived: bool
