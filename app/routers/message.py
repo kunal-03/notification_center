@@ -25,7 +25,7 @@ def publish_message(message: schema.MessageCreate, db: Session = Depends(get_db)
 @router.get('/', response_model=List[schema.MessageResponse])
 def get_Messages(db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user), limit: int = 10, offset: int = 0, search: Optional[str] = "" ):
     """API to fetch all the message for the current user based in the auth token also user can set offset, limit, and can also search messages based on the keyword in the message_content. """
-    messages = db.query(models.Message).filter(models.Message.message_content.contains(search)).limit(limit).offset(offset).all()
+    messages = db.query(models.Message).filter(models.Message.receiver == current_user.id, models.Message.message_content.contains(search)).limit(limit).offset(offset).all()
     return messages
 
 @router.put('/{message_id}', status_code=status.HTTP_201_CREATED, response_model=schema.MessageResponse)
